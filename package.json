@@ -1,0 +1,31 @@
+{
+  "name": "umbrella-strapi-api",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Umbrella API",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "devDependencies": {
+    "graphql-tag": "^2.12.6"
+  },
+  "dependencies": {
+    "@strapi/plugin-graphql": "^4.1.8",
+    "@strapi/plugin-i18n": "4.1.8",
+    "@strapi/plugin-users-permissions": "4.1.8",
+    "@strapi/strapi": "4.1.8",
+    "better-sqlite3": "7.4.6"
+  },
+  "strapi": {
+    "uuid": "14d95c49-99f9-4bf0-8019-db7eb367e0af",
+    "telemetryDisabled": true
+  },
+  "engines": {
+    "node": ">=12.x.x <=16.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

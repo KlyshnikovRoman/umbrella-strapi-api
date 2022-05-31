@@ -1,4 +1,5 @@
 'use strict'
+const axios = require('axios')
 
 module.exports = {
   /**
@@ -13,9 +14,16 @@ module.exports = {
     const extension = ({ strapi }) => {
       return {
         typeDefs: `
+          type RecaptchaEntityResponse {
+            success: Boolean!
+            score: Float!
+            errorCodes: [String!]
+          }
+
           type Query {
             isUsernameAvailable(username: String!): Boolean!
             isEmailAvailable(email: String!): Boolean!
+            recaptcha(token: String!): RecaptchaEntityResponse!
           }
         `,
         resolvers: {
@@ -37,9 +45,14 @@ module.exports = {
                   where: { email: { $eq: args.email } },
                 })
 
-                console.log(user)
-
                 return !user
+              },
+            },
+            recaptcha: {
+              async resolve(_, args) {
+                const { data: { success, score, errorCodes } } = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_KEY}&response=${args.token}`)
+
+                return { success, score, errorCodes }
               },
             },
           },
@@ -49,6 +62,9 @@ module.exports = {
             auth: false,
           },
           'Query.isEmailAvailable': {
+            auth: false,
+          },
+          'Query.recaptcha': {
             auth: false,
           },
         },
